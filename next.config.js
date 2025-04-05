@@ -1,11 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
-  swcMinify: false,
-  experimental: {
-    forceSwcTransforms: true,
-    swcTraceProfiling: false
-  }
+  output: 'standalone'
 };
 
 module.exports = nextConfig;
