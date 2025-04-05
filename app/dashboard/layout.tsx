@@ -23,16 +23,10 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
     setDebugSizes(sizes);
   };
 
-  const handlePanelSizeClick = () => {
-    handleResize(currentSize);
-    setIsCollapsed(!isCollapsed);
-  };
-
   return (
     <div className="flex min-h-screen bg-background">
       <div className="fixed bottom-4 right-4 bg-black/80 text-white p-4 rounded-lg text-sm z-50 space-y-2">
         <button
-          onClick={handlePanelSizeClick}
           className="text-left w-full hover:text-blue-300 transition-colors"
         >
           Panel Size: {currentSize.toFixed(2)}%
