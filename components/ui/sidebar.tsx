@@ -15,6 +15,7 @@ const menuItems = [
 
 interface SidebarProps {
   isCollapsed: boolean;
+  setIsCollapsed: any;
   onCollapsedChange: (collapsed: boolean) => void;
 }
 
