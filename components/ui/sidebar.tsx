@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useResize } from '@/lib/context/resize-context';
 
 const menuItems = [
   { icon: Home, label: 'Dashboard', href: '/dashboard' },
@@ -13,25 +14,35 @@ const menuItems = [
   { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
 ];
 
-export function Sidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+interface SidebarProps {
+  isCollapsed: boolean;
+  onCollapsedChange: (collapsed: boolean) => void;
+}
+
+export function Sidebar({ isCollapsed, onCollapsedChange }: SidebarProps) {
   const pathname = usePathname();
+  const { setPanelSize } = useResize();
+
+  const handleCollapse = () => {
+    const newCollapsed = !isCollapsed;
+   // onCollapsedChange(newCollapsed);
+    setPanelSize(newCollapsed ? 5 :30);
+  };
 
   return (
     <div className={cn(
-      "relative h-screen border-r bg-background px-2 transition-all duration-300",
-      isCollapsed ? "w-16" : "w-64"
+      "h-screen bg-background px-2 transition-all duration-200",
+      isCollapsed ? "w-[50px]" : "w-[240px] min-w-[240px]"
     )}>
       <div className="flex h-16 items-center justify-between px-2">
         {!isCollapsed && (
-          <h2 className="text-lg font-semibold">Dashboard</h2>
+          <h2 className="text-sm font-medium">Dashboard</h2>
         )}
         <Button
           variant="ghost"
           size="icon"
           className="h-6 w-6"
-          onClick={() => setIsCollapsed(!isCollapsed)}
-        >
+          onClick={handleCollapse}>
           {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
       </div>
@@ -41,12 +52,12 @@ export function Sidebar() {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent",
+              "flex items-center gap-3 rounded-lg px-2 py-1.5 text-sm font-medium leading-none transition-all hover:bg-accent",
               pathname === item.href ? "bg-accent" : "transparent",
               isCollapsed ? "justify-center" : "justify-start"
             )}
           >
-            <item.icon className="h-4 w-4" />
+            <item.icon className="h-4 w-4 shrink-0" />
             {!isCollapsed && <span>{item.label}</span>}
           </Link>
         ))}
