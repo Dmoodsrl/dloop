@@ -15,17 +15,15 @@ const menuItems = [
 
 interface SidebarProps {
   isCollapsed: boolean;
-  setIsCollapsed: any;
+  handleResize:any;
   onCollapsedChange: (collapsed: boolean) => void;
 }
 
-export function Sidebar({ isCollapsed, onCollapsedChange,handleResize,setIsCollapsed }: SidebarProps) {
+export function Sidebar({ isCollapsed, onCollapsedChange }: SidebarProps) {
   const pathname = usePathname();
 
   const handleCollapse = () => {
-        setIsCollapsed(!isCollapsed);
-
-    //handleResize(isCollapsed ? [30] : [5]);
+    onCollapsedChange(!isCollapsed);
   };
 
   return (

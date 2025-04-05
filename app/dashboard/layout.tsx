@@ -18,15 +18,20 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
 
   const handleResize = (sizes: number[]) => {
     const newSize = sizes[0];
-   // setPanelSize(newSize);
+    setPanelSize(newSize);
     setIsCollapsed(newSize <= COLLAPSE_THRESHOLD);
     setDebugSizes(sizes);
+  };
+
+  const handlePanelSizeClick = () => {
+    setIsCollapsed(!isCollapsed);
   };
 
   return (
     <div className="flex min-h-screen bg-background">
       <div className="fixed bottom-4 right-4 bg-black/80 text-white p-4 rounded-lg text-sm z-50 space-y-2">
         <button
+          onClick={handlePanelSizeClick}
           className="text-left w-full hover:text-blue-300 transition-colors"
         >
           Panel Size: {currentSize.toFixed(2)}%
@@ -49,7 +54,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
             isCollapsed ? "min-w-[50px] max-w-[50px]" : "min-w-[5] max-w-[240px]"
           )}
         >
-          <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} handleResize={handleResize} onCollapsedChange={setIsCollapsed} />
+          <Sidebar isCollapsed={isCollapsed} onCollapsedChange={setIsCollapsed} />
         </ResizablePanel>
         <ResizableHandle withHandle className="transition-opacity duration-300 ease-in-out" />
         <ResizablePanel>
