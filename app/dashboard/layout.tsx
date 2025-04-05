@@ -13,15 +13,33 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
   const COLLAPSE_THRESHOLD = 15; // Percentage threshold for collapse
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  const [debugSizes, setDebugSizes] = useState<number[]>([]);
+
+
   const handleResize = (sizes: number[]) => {
-    setPanelSize(sizes[0]);
-    setIsCollapsed(sizes[0] < COLLAPSE_THRESHOLD);
+    const newSize = sizes[0];
+   // setPanelSize(newSize);
+    setIsCollapsed(newSize <= COLLAPSE_THRESHOLD);
+    setDebugSizes(sizes);
+  };
+
+  const handlePanelSizeClick = () => {
+    handleResize(currentSize);
+    setIsCollapsed(!isCollapsed);
   };
 
   return (
     <div className="flex min-h-screen bg-background">
-      <div className="fixed bottom-4 right-4 bg-black/80 text-white px-4 py-2 rounded-full text-sm z-50">
-        Size: {currentSize.toFixed(2)}% (Collapses at {COLLAPSE_THRESHOLD}%)
+      <div className="fixed bottom-4 right-4 bg-black/80 text-white p-4 rounded-lg text-sm z-50 space-y-2">
+        <button
+          onClick={handlePanelSizeClick}
+          className="text-left w-full hover:text-blue-300 transition-colors"
+        >
+          Panel Size: {currentSize.toFixed(2)}%
+        </button>
+        <div>Sizes[0]: {debugSizes[0]?.toFixed(2)}%</div>
+        <div>Is Collapsed: {isCollapsed.toString()}</div>
+        <div>Collapse Threshold: {COLLAPSE_THRESHOLD}%</div>
       </div>
       <ResizablePanelGroup 
         direction="horizontal" 
@@ -29,15 +47,15 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
         className="w-full"
       >
         <ResizablePanel 
-          defaultSize={20} 
+          defaultSize={30} 
           minSize={5} 
-          maxSize={30} 
+          maxSize={30}
           className={cn(
             "transition-width duration-300 ease-in-out",
-            isCollapsed ? "min-w-[50px] max-w-[50px]" : "min-w-[15%] max-w-[240px]"
+            isCollapsed ? "min-w-[50px] max-w-[50px]" : "min-w-[5] max-w-[240px]"
           )}
         >
-          <Sidebar isCollapsed={isCollapsed} onCollapsedChange={setIsCollapsed} />
+          <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} handleResize={handleResize} onCollapsedChange={setIsCollapsed} />
         </ResizablePanel>
         <ResizableHandle withHandle className="transition-opacity duration-300 ease-in-out" />
         <ResizablePanel>

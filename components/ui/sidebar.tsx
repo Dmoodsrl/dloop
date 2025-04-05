@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { useResize } from '@/lib/context/resize-context';
 
 const menuItems = [
   { icon: Home, label: 'Dashboard', href: '/dashboard' },
@@ -19,20 +18,19 @@ interface SidebarProps {
   onCollapsedChange: (collapsed: boolean) => void;
 }
 
-export function Sidebar({ isCollapsed, onCollapsedChange }: SidebarProps) {
+export function Sidebar({ isCollapsed, onCollapsedChange,handleResize,setIsCollapsed }: SidebarProps) {
   const pathname = usePathname();
-  const { setPanelSize } = useResize();
 
   const handleCollapse = () => {
-    const newCollapsed = !isCollapsed;
-   // onCollapsedChange(newCollapsed);
-    setPanelSize(newCollapsed ? 5 :30);
+        setIsCollapsed(!isCollapsed);
+
+    //handleResize(isCollapsed ? [30] : [5]);
   };
 
   return (
     <div className={cn(
       "h-screen bg-background px-2 transition-all duration-200",
-      isCollapsed ? "w-[50px]" : "w-[240px] min-w-[240px]"
+      isCollapsed ? "" : ""
     )}>
       <div className="flex h-16 items-center justify-between px-2">
         {!isCollapsed && (
