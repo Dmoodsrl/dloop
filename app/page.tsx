@@ -9,8 +9,8 @@ import { useState } from "react"
 import { useRouter } from "next/navigation" 
 import { Separator } from "@/components/ui/separator"
 
-const DEFAULT_EMAIL = 'admin@admin.com'
-const DEFAULT_PASSWORD = 'password'
+const DEFAULT_EMAIL = 'demo@acmecorp.dev'
+const DEFAULT_PASSWORD = 'Demo_2025!'
 
 export default function Home() {
   const [email, setEmail] = useState(DEFAULT_EMAIL)
@@ -102,7 +102,7 @@ export default function Home() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@admin.com"
+                placeholder="demo@acmecorp.dev"
                 disabled={isLoading}
               />
             </div>
@@ -116,7 +116,7 @@ export default function Home() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="password"
+                placeholder="Demo_2025!"
                 disabled={isLoading}
               />
             </div>
